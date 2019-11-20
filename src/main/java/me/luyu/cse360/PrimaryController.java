@@ -6,6 +6,28 @@ import javafx.fxml.FXML;
 public class PrimaryController
 {
 
-    //TODO
+    @FXML
+    public void exit()
+    {
+        System.exit(0);
+    }
+
+    @FXML
+    public void loadFile()
+    {
+        // TODO
+    }
+
+    @FXML
+    public void formatFile()
+    {
+        // TODO
+    }
+
+    @FXML
+    public void saveFile()
+    {
+        // TODO
+    }
 
 }

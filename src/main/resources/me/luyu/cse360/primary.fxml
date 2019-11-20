@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
+<?import java.net.URL?>
 <TabPane prefHeight="605.0" prefWidth="530.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.luyu.cse360.PrimaryController">
    <tabs>
       <Tab text="Input Preview">
@@ -14,11 +15,16 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="595.0" prefWidth="530.0">
                <children>
                   <TextArea disable="true" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="501.0" />
-                  <HBox layoutX="85.0" layoutY="530.0" prefHeight="31.0" prefWidth="359.0" spacing="20.0">
+                  <HBox layoutX="25.0" layoutY="529.0" prefHeight="31.0" prefWidth="475.0" spacing="20.0">
                      <children>
-                        <Button fx:id="inputTab_loadInputButton" prefWidth="114.0" text="Load Input File" />
-                        <Button fx:id="inputTab_formatInputButton" text="Format Input" />
-                        <Button fx:id="inputTab_saveOutputButton" text="Save Output to File" />
+                        <Button fx:id="inputTab_loadInputButton" onAction = "#loadFile" prefWidth="114.0"
+                                styleClass="glass-grey" text="Load Input File" />
+                        <Button fx:id="inputTab_formatInputButton"
+                                styleClass="glass-grey" onAction = "#formatFile" text="Format Input" />
+                        <Button fx:id="inputTab_saveOutputButton"
+                                styleClass="glass-grey" onAction = "#saveFile" text="Save Output to File" />
+                        <Button fx:id="inputTab_exitButton" prefHeight="25.0" prefWidth="45.0"
+                                styleClass="round-red" onAction="#exit" text="Exit" translateX="60.0" />
                      </children>
                   </HBox>
                </children>
@@ -30,16 +36,23 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TextArea disable="true" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="501.0" />
-                  <HBox layoutX="27.0" layoutY="530.0" prefHeight="31.0" prefWidth="475.0" spacing="20.0">
+                  <HBox layoutX="25.0" layoutY="529.0" prefHeight="31.0" prefWidth="475.0" spacing="20.0">
                      <children>
-                        <Button fx:id="outputTab_loadInputButton" prefWidth="114.0" text="Load Input File" />
-                        <Button fx:id="outputTab_formatInputButton" text="Format Input" />
-                        <Button fx:id="outputTab_saveOutputButton" text="Save Output to File" />
-                        <Button fx:id="outputTab_loadInputButton1" prefHeight="25.0" prefWidth="45.0" text="Exit" translateX="60.0" />
+                        <Button fx:id="outputTab_loadInputButton" prefWidth="114.0"
+                                styleClass="glass-grey" onAction="#loadFile" text="Load Input File" />
+                        <Button fx:id="outputTab_formatInputButton"
+                                styleClass="glass-grey" onAction="#formatFile" text="Format Input" />
+                        <Button fx:id="outputTab_saveOutputButton"
+                                styleClass="glass-grey" onAction="#saveFile" text="Save Output to File" />
+                        <Button fx:id="outputTab_exitButton" prefHeight="25.0" prefWidth="45.0"
+                                styleClass="round-red" onAction="#exit" text="Exit" translateX="60.0" />
                      </children>
                   </HBox>
                </children></AnchorPane>
          </content>
       </Tab>
    </tabs>
+   <stylesheets>
+      <URL value="@css/button-styles.css" />
+   </stylesheets>
 </TabPane>
