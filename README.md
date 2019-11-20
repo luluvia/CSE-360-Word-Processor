@@ -6,8 +6,18 @@
 
 ### How do I get set up? ###
 
-* Clone the repository to your local environment either using the Git command-line interface or a Git GUI client (GitKraken, GitHub Desktop, SourceTree, magit etc).
-* Set your local credentials so that, when you commit changes, you can be recognized.
+Clone the repository to your local environment either using the Git command-line interface or a Git GUI client (GitKraken, GitHub Desktop, SourceTree, magit etc).
+Set your local credentials so that, when you commit changes, you can be recognized.
+
+You will need:
+
+* [OpenJDK 13](https://jdk.java.net/13/)
+* [Apache Maven 3.6.2 or newer](https://maven.apache.org/download.cgi)
+* [JavaFX 13.0.1](https://gluonhq.com/products/javafx/)
+
+Install the three development kits above. OpenJDK needs to go in your JAVA folder, while the other two can go in a separate folder. You'll need to set your JAVA_HOME, MAVEN_HOME, and Path variables for all three. See the installation pages for each to learn how to do this.
+In your preferred IDE, import pom.xml in the project as a Maven project. It should automatically set up your project. If further modification is needed, consult your IDE's Maven setup page.
+JavaFX SceneBuilder is recommended to work with the GUI.
 
 ### Project management ###
 
