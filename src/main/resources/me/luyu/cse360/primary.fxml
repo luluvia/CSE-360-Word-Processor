@@ -14,7 +14,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="595.0" prefWidth="530.0">
                <children>
-                  <TextArea disable="true" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="501.0" />
+                  <TextArea fx:id="inputPreview" disable="false" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="501.0" />
                   <HBox layoutX="25.0" layoutY="529.0" prefHeight="31.0" prefWidth="475.0" spacing="20.0">
                      <children>
                         <Button fx:id="inputTab_loadInputButton" onAction = "#loadFile" prefWidth="114.0"
@@ -35,7 +35,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextArea disable="true" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="501.0" />
+                  <TextArea disable="false" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="501.0" />
                   <HBox layoutX="25.0" layoutY="529.0" prefHeight="31.0" prefWidth="475.0" spacing="20.0">
                      <children>
                         <Button fx:id="outputTab_loadInputButton" prefWidth="114.0"
