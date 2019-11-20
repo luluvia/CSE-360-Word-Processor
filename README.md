@@ -17,7 +17,7 @@ You will need:
 
 Install the three development kits above. OpenJDK needs to go in your JAVA folder, while the other two can go in a separate folder. You'll need to set your JAVA_HOME, MAVEN_HOME, and Path variables for all three. See the installation pages for each to learn how to do this.
 In your preferred IDE, import pom.xml in the project as a Maven project. It should automatically set up your project. If further modification is needed, consult your IDE's Maven setup page.
-JavaFX SceneBuilder is recommended to work with the GUI.
+JavaFX [SceneBuilder](https://gluonhq.com/products/scene-builder/thanks/?dl=/download/scene-builder-11-windows-x64/) is recommended to work with the GUI. SceneBuilder 11.0.0 or newer should work for JavaFX 13.
 
 ### Project management ###
 
