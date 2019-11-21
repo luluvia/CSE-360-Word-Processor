@@ -20,7 +20,7 @@ public class PrimaryController
     @FXML
     private TextArea inputPreview;
 
-    private Stream<String> inputLines;
+    static Stream<String> inputLines;
 
     @FXML
     public void exit()
@@ -96,7 +96,7 @@ public class PrimaryController
     @FXML
     public void formatFile()
     {
-        String formattedString = FormatText.formatText(inputLines);
+        String formattedString = FormatText.formatText();
     }
 
     @FXML
