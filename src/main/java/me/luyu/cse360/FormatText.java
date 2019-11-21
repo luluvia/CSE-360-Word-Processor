@@ -45,10 +45,78 @@ class FormatText {
     private static boolean paragraphIndent = DEFAULT_PARAGRAPH_INDENT;
     private static boolean blockIndent = DEFAULT_BLOCK_INDENT;
     private static boolean singleColumn = DEFAULT_SINGLE_COLUMN;
+    private static boolean flagLine = true;
 
-    static String formatText(Stream<String> inputLines)
+    static String formatText()
     {
+        for (String lineIn : (Iterable<String>) PrimaryController.inputLines::iterator)
+        {
+            flagParser(lineIn);
+            if (!flagLine)
+            {
+                // TODO Apply formatting to lines.
+            }
+        }
+
         return null; // TODO
+    }
+
+    static void flagParser(String lineIn)
+    {
+        flagLine = true;
+        if (lineIn.length() == 2)
+        {
+            if (lineIn.charAt(0) == '-')
+            {
+                switch (lineIn.toLowerCase().charAt(1))
+                {
+                    case('r'):
+                        alignment = Alignment.RIGHT;
+                        break;
+                    case('c'):
+                        alignment = Alignment.CENTER;
+                        break;
+                    case('l'):
+                        alignment = Alignment.LEFT;
+                        break;
+                    case('t'):
+                        alignment = Alignment.CENTER_NO_JUSTIFY;
+                        break;
+                    case('d'):
+                        singleSpacing = false;
+                        break;
+                    case('s'):
+                        singleSpacing = true;
+                        break;
+                    case('i'):
+                        paragraphIndent = true;
+                        break;
+                    case('b'):
+                        blockIndent = true;
+                        break;
+                    case('n'):
+                        paragraphIndent = false;
+                        blockIndent = false;
+                        break;
+                    case('1'):
+                        singleColumn = true;
+                        break;
+                    case('2'):
+                        singleColumn = false;
+                        break;
+                    default:
+                        flagLine = false;
+                }
+            }
+            else
+            {
+                flagLine = false;
+            }
+        }
+        else
+        {
+            flagLine = false;
+        }
     }
 
 }
