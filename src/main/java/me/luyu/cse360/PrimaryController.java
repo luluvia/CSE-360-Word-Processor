@@ -96,7 +96,7 @@ public class PrimaryController
     @FXML
     public void formatFile()
     {
-        // TODO
+        String formattedString = FormatText.formatText(inputLines);
     }
 
     @FXML
