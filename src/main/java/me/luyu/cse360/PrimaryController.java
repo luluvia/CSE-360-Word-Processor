@@ -56,16 +56,16 @@ public class PrimaryController
                     StringBuilder builder = new StringBuilder();
                     boolean firstLine = true;
 
-                    for (String linesIn : (Iterable<String>) inputLines::iterator)
+                    for (String lineIn : (Iterable<String>) inputLines::iterator)
                     {
                         if (firstLine)
                         {
-                            builder.append(linesIn);
+                            builder.append(lineIn);
                             firstLine = false;
                         }
                         else
                         {
-                            builder.append('\n' + linesIn);
+                            builder.append('\n' + lineIn);
                         }
                     }
                     inputPreview.setText(builder.toString());
