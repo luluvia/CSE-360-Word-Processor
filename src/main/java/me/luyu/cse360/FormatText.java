@@ -203,7 +203,6 @@ class FormatText {
      * Has the side effect of updating flagLine : boolean
      * @param A line, if it's a flag it has format '-[flag]', [flag] is a char
      */
-    static void flagParser(String lineIn)
     private static void flagParser(String lineIn)
     {
         flagLine = true;
