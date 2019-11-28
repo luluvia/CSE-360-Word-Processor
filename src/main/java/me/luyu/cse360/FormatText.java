@@ -1,6 +1,7 @@
 package me.luyu.cse360;
 
-import java.util.stream.Stream;
+import java.util.StringTokenizer;
+import java.util.Scanner;
 
 /*
  * FormatText handles the formatting functions for the input text file.
@@ -46,22 +47,123 @@ class FormatText {
     private static boolean blockIndent = DEFAULT_BLOCK_INDENT;
     private static boolean singleColumn = DEFAULT_SINGLE_COLUMN;
     private static boolean flagLine = true;
+    private static boolean firstLine = true;
+
+    private static StringBuilder output;
+    private static String starterLine;
+    private static String currentLine;
+    private static String nextLine = "";
 
     static String formatText()
     {
-        for (String lineIn : (Iterable<String>) PrimaryController.inputLines::iterator)
+        Scanner scan = new Scanner(PrimaryController.inputString);
+        output = new StringBuilder();
+        nextLine = "";
+        String lineIn;
+        // String lineIn is the line we'll be using as input.
+        do
         {
+            lineIn = scan.nextLine();
+            lineIn = lineIn.trim();
             flagParser(lineIn);
             if (!flagLine)
             {
-                // TODO Apply formatting to lines.
+                starterLine = nextLine + " " + lineIn;
+                if (starterLine.length() > charsPerLine)
+                {
+                    restructureLine(true);
+                    addCurrentLineToOutput();
+
+                    while (nextLine.length() > charsPerLine)
+                    {
+                        restructureLine(false);
+                        addCurrentLineToOutput();
+                    }
+
+                    if (nextLine.length() > 0)
+                    {
+                        restructureLine(false);
+                        addCurrentLineToOutput();
+                    }
+                }
+                else
+                {
+                    currentLine = starterLine;
+                    addCurrentLineToOutput();
+                }
+
+            }
+        } while (scan.hasNextLine());
+
+        if (Scribe.DEBUG)
+        {
+            System.out.print(output.toString());
+        }
+
+        return null; // TODO Use the return to display the output in the Output Tab.
+    }
+
+    private static void addCurrentLineToOutput() {
+        if (firstLine)
+        {
+            firstLine = false;
+        }
+        else
+        {
+            output.append('\n');
+        }
+        output.append(currentLine);
+    }
+
+    private static void restructureLine(boolean usingStarterLine)
+    {
+        boolean startOfCurrentLine = true;
+        String token;
+        currentLine = "";
+
+        StringTokenizer tokenizer;
+
+        if (usingStarterLine)
+        {
+            tokenizer = new StringTokenizer(starterLine);
+        }
+        else
+        {
+            tokenizer = new StringTokenizer(nextLine);
+        }
+
+        while (tokenizer.hasMoreTokens())
+        {
+            token = tokenizer.nextToken();
+            if ((currentLine.length() + token.length()) < charsPerLine)
+            {
+                if (startOfCurrentLine)
+                {
+                    startOfCurrentLine = false;
+                }
+                else
+                {
+                    currentLine = currentLine + ' ';
+                }
+                currentLine = currentLine + token;
+            }
+            else
+            {
+                break;
             }
         }
 
-        return null; // TODO
+        if (usingStarterLine)
+        {
+            nextLine = starterLine.substring(currentLine.length() + 1);
+        }
+        else
+        {
+            nextLine = nextLine.substring(currentLine.length() + 1);
+        }
     }
 
-    static void flagParser(String lineIn)
+    private static void flagParser(String lineIn)
     {
         flagLine = true;
         if (lineIn.length() == 2)
