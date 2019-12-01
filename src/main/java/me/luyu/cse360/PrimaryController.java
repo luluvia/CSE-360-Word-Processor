@@ -20,7 +20,7 @@ public class PrimaryController
     @FXML
     private TextArea inputPreview;
 
-    private Stream<String> inputLines;
+    static String inputString;
 
     @FXML
     public void exit()
@@ -51,24 +51,25 @@ public class PrimaryController
             {
                 try
                 {
-                    inputLines = Files.lines(inputFile.toPath(), StandardCharsets.US_ASCII);
+                    Stream<String> inputLines = Files.lines(inputFile.toPath(), StandardCharsets.US_ASCII);
 
                     StringBuilder builder = new StringBuilder();
                     boolean firstLine = true;
 
-                    for (String linesIn : (Iterable<String>) inputLines::iterator)
+                    for (String lineIn : (Iterable<String>) inputLines::iterator)
                     {
                         if (firstLine)
                         {
-                            builder.append(linesIn);
+                            builder.append(lineIn);
                             firstLine = false;
                         }
                         else
                         {
-                            builder.append('\n' + linesIn);
+                            builder.append('\n' + lineIn);
                         }
                     }
-                    inputPreview.setText(builder.toString());
+                    inputString = builder.toString();
+                    inputPreview.setText(inputString);
                     builder.delete(0, builder.length()-1);
                 } catch (FileNotFoundException e)
                 {
@@ -96,7 +97,7 @@ public class PrimaryController
     @FXML
     public void formatFile()
     {
-        String formattedString = FormatText.formatText(inputLines);
+        String formattedString = FormatText.formatText();
     }
 
     @FXML
