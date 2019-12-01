@@ -1,6 +1,14 @@
 
 .idea/
 
-CSE-360-Word-Processor.iml
-
 target/
+
+.settings/
+
+.classpath
+
+.project
+
+*.iml
+
+dist/

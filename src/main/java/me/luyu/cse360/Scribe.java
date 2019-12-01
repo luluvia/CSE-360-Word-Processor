@@ -17,6 +17,7 @@ public class Scribe extends Application
     private static Scene scene;
     private static Stage pStage;
     public static final String VERSION = "0.0.1";
+    public static boolean DEBUG = true;
 
     @Override
     public void start(Stage primaryStage) throws IOException
