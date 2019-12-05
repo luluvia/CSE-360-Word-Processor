@@ -1,5 +1,6 @@
 package me.luyu.cse360;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 /*
@@ -211,4 +212,198 @@ class FormatText {
     	
     	return indented;
     }
+    
+    /**
+     * Method Description
+     * @param mStr
+     * @param isSize80
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> intoArrayList2Col(String mStr, boolean isSize80) 
+	{
+		
+		//Local variables
+		int iterator = 0;
+		String toArrList = "0";
+		int columnSize = 80;
+		ArrayList<String> strList = new ArrayList<String>();
+		String tempStr = "";
+		int strLength = 0;
+		int arrSize = 0;
+		String[] words = mStr.split("\\s");//splits the string with whitespace as the delimeter.
+		
+		if(isSize80 != true)
+		{
+			columnSize = 35;
+		}
+		
+		arrSize = words.length; //gets size of the array
+		
+		tempStr = words[iterator]; //gives a proper value from the array to the list
+		
+		strLength = tempStr.length(); //gets length of the string to later check it doen't go over 35
+		
+		toArrList = tempStr; //gives a value to the string that will get added to the arrayList
+		
+		iterator = iterator + 1; //increments iterator
+		
+		while( (strLength <= columnSize)  && (arrSize > iterator) )//
+		{
+			
+			tempStr +=  " " + words[iterator]; //appends another word
+			
+			strLength = tempStr.length(); //gets the size of the string
+			
+			if(strLength <= columnSize) //if length is not too big modify toArrList string
+			{
+				toArrList = tempStr;
+				
+				iterator = iterator + 1;
+			}
+			
+			if(strLength >= columnSize) //if the toArrList is as big as it can get without adding another word then it is good.
+			{
+				
+				strList.add(toArrList);
+				
+				tempStr = words[iterator];
+				
+				strLength = tempStr.length();
+				
+				toArrList = tempStr;
+				
+				iterator = iterator + 1;
+				
+			}
+			
+		}//ends while( (strLength <= columnSize)  && (arrSize > iterator) )
+		
+		strList.add(toArrList); //adds the last string
+		
+		/*
+		for(int i = 0; i < strList.size(); i++)//DEBUGGING
+		{
+			
+			System.out.print(strList.get(i) + "\n\n");//debugging
+			
+		}
+		*/
+		
+		return(strList);
+		
+	}//ends toArrayList
+    
+    /**
+	 * Method Description oneColumn
+	 * @param  ArrayList<String> arrList 
+	 * @param boolean singleSpace
+	 * @return String
+	 */
+	public static String oneColumn(ArrayList<String> arrList, boolean singleSpace)
+	{
+		
+		//Local Variables
+		String retVal = "";
+		
+		//Local Code
+		int iterator = 0;
+		int arrListSize = (arrList.size()) - 1;//gets size to stop the loop
+		String spacing = "\n";
+		
+		if(singleSpace == false)
+		{
+			spacing = "\n\n";
+		}
+		
+		do
+		{
+			
+			retVal += arrList.get(iterator) + spacing;
+			
+			iterator = iterator + 1;
+			
+		}while(iterator <= arrListSize);
+		
+		return(retVal);
+		
+	}//ends oneColumnFunc
+    
+    /**
+     * 
+     * @param arrList
+     * @return
+     */
+	public static String twoColumnFunc(ArrayList<String> arrList) 
+	{
+		//local variables
+		String retVal = "";
+		String strTemp = ""; 
+		int strTempSize = 0;
+		int arrListSize = arrList.size();
+		int iterator = 0;
+		int iterator2 = 0;
+		int mid = 0;
+		
+		mid = (int) Math.floor((double) (arrListSize) / (2.0));
+		
+		iterator2 = mid;
+		
+		mid = mid - 1;//done so that the loop ends in the appropriate place
+		
+		do 
+		{
+			
+			strTemp = arrList.get(iterator);//
+			
+			strTempSize += strTemp.length();
+			
+			while(strTempSize < 35)
+			{
+				strTemp += " ";
+				
+				strTempSize = strTemp.length();
+			}
+			
+			strTemp += "          ";
+			
+			retVal += strTemp;
+			
+			if(iterator2 < arrListSize)
+			{
+				
+				strTemp = "";
+				
+				strTemp = arrList.get(iterator2);
+				
+				strTempSize = strTemp.length();
+				
+				while(strTempSize < 35)
+				{
+					strTemp += " ";
+					
+					strTempSize = strTemp.length();
+				}
+				
+				retVal += strTemp + "\n";
+				
+				strTemp = "";
+				
+			}
+				
+			iterator = iterator + 1;
+			
+			iterator2 = iterator2 + 1;
+			
+			strTempSize = 0;
+			
+			//System.out.print(retVal);//DEBUGGING
+			
+			//System.out.print("\n\n\n");//DEBUGGING
+			
+		}while(iterator <= mid);
+		
+		return(retVal);
+		
+	}//twoColumnFunc end
+	
 }
