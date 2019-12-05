@@ -1,7 +1,7 @@
 package me.luyu.cse360;
 
-import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.StringTokenizer;
+import java.util.Scanner;
 
 /*
  * FormatText handles the formatting functions for the input text file.
@@ -49,58 +49,153 @@ class FormatText {
     private static boolean flagLine = true;
     private static boolean firstLine = true;
 
-    /*
-     * Format the text
-     */
+    private static StringBuilder output;
+    private static String starterLine;
+    private static String currentLine;
+    private static String nextLine = "";
+
     static String formatText()
     {
-    	String buffer;
-    	
-        for (String lineIn : (Iterable<String>) PrimaryController.inputLines::iterator)
+        Scanner scan = new Scanner(PrimaryController.inputString);
+        output = new StringBuilder();
+        nextLine = "";
+        String lineIn;
+        // String lineIn is the line we'll be using as input.
+        do
         {
-        	lineIn = lineIn.trim();
+            lineIn = scan.nextLine();
+            lineIn = lineIn.trim();
             flagParser(lineIn);
             
             if (!flagLine)
             {
-                // TODO Apply formatting to lines.
-            	// Apply spacing
-            	if (singleSpacing) {
-            		lineIn = applySingleSpacing(lineIn);
-            	} else {
-            		lineIn = applyDoubleSpacing(lineIn);
-            	}
-            	
-            	// Apply indent
-            	if (blockIndent) {
-            		lineIn = applyBlockIndent(lineIn);
-            	}
-            	
-            	if (paragraphIndent && firstLine) {
-            		/*
-            		if (blockIndent) {
-            			// TODO: Define custom error?
-            			//throw new InvalidFormatSetting("Block indent and paragraph indent flags cannot be set simultaneously.");
-            		} else {
-            			lineIn = applyParagraphIndent(lineIn);
-            		}
-            		*/
-            		
-            		lineIn = applyParagraphIndent(lineIn);
-            	}
-            	
-            	// TODO: apply justify
-            	
-            	// TODO: buffer in the line according to column setting
-            	
-            	// This may be a useful line
-            	// buffer = lineIn.substring(0, Math.min(lineIn.length(), charsPerLine)); // Get 1st 35/80 chars
-            	
-            	firstLine = false; // This will trip to false the first time
+                starterLine = nextLine + " " + lineIn;
+                if (starterLine.length() > charsPerLine)
+                {
+                    restructureLine(true);
+                    addCurrentLineToOutput();
+
+                    while (nextLine.length() > charsPerLine)
+                    {
+                        restructureLine(false);
+                        addCurrentLineToOutput();
+                    }
+
+                    if (nextLine.length() > 0)
+                    {
+                        restructureLine(false);
+                        addCurrentLineToOutput();
+                    }
+                }
+                else
+                {
+                    currentLine = starterLine;
+                    addCurrentLineToOutput();
+                }            	
+            }
+        } while (scan.hasNextLine());
+
+        if (Scribe.DEBUG)
+        {
+            System.out.print(output.toString());
+        }
+
+        return null; // TODO Use the return to display the output in the Output Tab.
+    }
+
+    private static void addCurrentLineToOutput() {
+        if (firstLine)
+        {
+            firstLine = false;
+        }
+        else
+        {
+            output.append('\n');
+        }
+        output.append(currentLine);
+    }
+
+    private static void restructureLine(boolean usingStarterLine)
+    {
+        boolean startOfCurrentLine = true;
+        String token;
+        currentLine = "";
+
+        StringTokenizer tokenizer;
+
+        if (usingStarterLine)
+        {
+            tokenizer = new StringTokenizer(starterLine);
+        }
+        else
+        {
+            tokenizer = new StringTokenizer(nextLine);
+        }
+
+        while (tokenizer.hasMoreTokens())
+        {
+            token = tokenizer.nextToken();
+            if ((currentLine.length() + token.length()) < charsPerLine)
+            {
+                if (startOfCurrentLine)
+                {
+                    startOfCurrentLine = false;
+                }
+                else
+                {
+                    currentLine = currentLine + ' ';
+                }
+                currentLine = currentLine + token;
+            }
+            else
+            {
+                break;
             }
         }
 
-        return null; // TODO
+        // TODO Apply formatting to lines.
+        // Apply spacing
+        if (!singleSpacing) 
+        {
+            applyDoubleSpacing();
+        }
+            	
+        // Apply indent
+        if (blockIndent) 
+        {
+            applyBlockIndent();
+        }
+            	
+        if (paragraphIndent) 
+        {
+            /*
+            if (blockIndent) {
+            	// TODO: Define custom error?
+            	//throw new InvalidFormatSetting("Block indent and paragraph indent flags cannot be set simultaneously.");
+            } else {
+            	lineIn = applyParagraphIndent(lineIn);
+            }
+            */
+            		
+            applyParagraphIndent();
+            paragraphIndent = false; // paragraphIndent is only applied for the first line encountered.
+        }
+            	
+        // TODO: apply justify
+            	
+        // TODO: buffer in the line according to column setting
+            	
+        // This may be a useful line
+        // buffer = lineIn.substring(0, Math.min(lineIn.length(), charsPerLine)); // Get 1st 35/80 chars
+
+        if (usingStarterLine)
+        {
+            nextLine = starterLine.substring(currentLine.length() + 1);
+        }
+        else
+        {
+            nextLine = nextLine.substring(currentLine.length() + 1);
+        }
     }
 
     /*
@@ -108,7 +203,7 @@ class FormatText {
      * Has the side effect of updating flagLine : boolean
      * @param A line, if it's a flag it has format '-[flag]', [flag] is a char
      */
-    static void flagParser(String lineIn)
+    private static void flagParser(String lineIn)
     {
         flagLine = true;
         if ((lineIn.length() == 2) && (lineIn.charAt(0) == '-'))
@@ -164,7 +259,11 @@ class FormatText {
      * @param Input string, may be single spaced or double spaced
      * @return Output a string that's single spaced
      */
-    static String applySingleSpacing(String lineIn) {
+
+     // For now this is not being used because the default formatting is single spacing.
+     // May be used later if we decide to change the logic.
+    private static String applySingleSpacing(String lineIn) 
+    {
     	String spaced = lineIn;
     	
     	// TODO: Make spaced single spaced
@@ -177,8 +276,11 @@ class FormatText {
      * @param Input string, may be single spaced or double spaced
      * @return Output a string that's double spaced
      */
-    static String applyDoubleSpacing(String lineIn) {
-    	String spaced = lineIn;
+
+     // Uses currentLine, the formatted text.
+    private static String applyDoubleSpacing()
+    {
+    	String spaced = currentLine;
     	
     	// TODO: Make spaced double spaced
     	
@@ -190,11 +292,12 @@ class FormatText {
      * @param Input string, expect it not to be indented already
      * @return Output a string that's indented
      */
-    static String applyBlockIndent(String lineIn) {
+    private static String applyBlockIndent() 
+    {
     	String indented;
     	String tenSpaces = "          ";
     	
-    	indented = tenSpaces + lineIn;
+    	indented = tenSpaces + currentLine;
     	
     	return indented;
     }
@@ -204,11 +307,11 @@ class FormatText {
      * @param Input string, expect it not to be indented already
      * @return Output a string that's indented
      */
-    static String applyParagraphIndent(String lineIn) {
+    private static String applyParagraphIndent() {
     	String indented;
     	String fiveSpaces = "     ";
     	
-    	indented = fiveSpaces + lineIn;
+    	indented = fiveSpaces + currentLine;
     	
     	return indented;
     }
