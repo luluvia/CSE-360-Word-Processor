@@ -6,7 +6,7 @@ import java.util.Scanner;
 /*
  * FormatText handles the formatting functions for the input text file.
  * All of the formatting-related code should go here.
- * inputLines in formatText is the input text.
+ * inputLines in formatText is the input text
  */
 class FormatText {
 
