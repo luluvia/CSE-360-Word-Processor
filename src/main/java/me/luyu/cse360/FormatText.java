@@ -70,6 +70,7 @@ class FormatText {
             if (!flagLine)
             {
                 starterLine = nextLine + " " + lineIn;
+                starterLine.trim();
                 if (starterLine.length() > charsPerLine)
                 {
                     restructureLine(true);
@@ -141,6 +142,20 @@ class FormatText {
             currentLine = ""; // default no indent
         }
 
+        // Indentation
+        if (blockIndent)
+        {
+            currentLine = "          "; // 10 char indent
+        }
+        else if (firstLine && paragraphIndent)
+        {
+            currentLine = "     "; // 5 char indent
+        }
+        else
+        {
+            currentLine = ""; // default no indent
+        }
+
         StringTokenizer tokenizer;
 
         if (usingStarterLine)
@@ -191,7 +206,21 @@ class FormatText {
         }
         else
         {
-            nextLine = nextLine.substring(currentLine.length() + 1);
+            if (nextLine.length() > currentLine.length())
+            {
+                nextLine = nextLine.substring(currentLine.length() + 1);
+            }
+            else
+            {
+                if (blockIndent)
+                {
+                    nextLine = nextLine.substring(5, currentLine.length()-10);
+                }
+                else
+                {
+                    nextLine = nextLine.substring(currentLine.length());
+                }
+            }
         }
     }
 
