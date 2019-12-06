@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -16,11 +17,17 @@ import javafx.stage.Stage;
 
 public class PrimaryController
 {
+    @FXML
+    private TabPane tabPane;
 
     @FXML
     private TextArea inputPreview;
 
+    @FXML
+    private TextArea outputPreview;
+
     static String inputString;
+    static String outputString;
 
     @FXML
     public void exit()
@@ -97,13 +104,19 @@ public class PrimaryController
     @FXML
     public void formatFile()
     {
-        String formattedString = FormatText.formatText();
+        outputString = FormatText.formatText();
+
+        if (outputString != null)
+        {
+            outputPreview.setText(outputString);
+            tabPane.getSelectionModel().select(1); // Select second tab (output tab)
+        }
     }
 
     @FXML
     public void saveFile()
     {
-        // TODO
+
     }
 
 }

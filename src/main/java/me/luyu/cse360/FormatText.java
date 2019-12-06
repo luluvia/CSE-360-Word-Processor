@@ -100,7 +100,7 @@ class FormatText {
             System.out.print(output.toString());
         }
 
-        return null; // TODO Use the return to display the output in the Output Tab.
+        return output.toString();
     }
 
     private static void addCurrentLineToOutput() {
