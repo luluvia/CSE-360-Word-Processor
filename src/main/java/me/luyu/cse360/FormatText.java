@@ -110,7 +110,13 @@ class FormatText {
         }
         else
         {
-            output.append('\n');
+            // Apply double or single spacing
+            if (singleSpacing) {
+              output.append('\n');
+            } else {
+              output.append('\n');
+              output.append('\n');
+            }
         }
         output.append(currentLine);
     }
@@ -120,6 +126,20 @@ class FormatText {
         boolean startOfCurrentLine = true;
         String token;
         currentLine = "";
+        
+        // Indentation
+        if (blockIndent)
+        {
+            currentLine = "          "; // 10 char indent
+        }
+        else if (firstLine && paragraphIndent)
+        {
+            currentLine = "     "; // 5 char indent
+        }
+        else
+        {
+            currentLine = ""; // default no indent
+        }
 
         StringTokenizer tokenizer;
 
@@ -152,42 +172,19 @@ class FormatText {
                 break;
             }
         }
-
-        // TODO Apply formatting to lines.
-        // Apply spacing
-        if (!singleSpacing) 
-        {
-            applyDoubleSpacing();
+            	
+        // TODO: check if justify plays nice with indent
+        if (alignment == Alignment.LEFT) {
+        	currentLine = applyLeftFlush(currentLine, singleColumn);
+        } else if (alignment == Alignment.RIGHT) {
+        	currentLine = applyRightFlush(currentLine, singleColumn);
+        } else if (alignment == Alignment.CENTER_NO_JUSTIFY) {
+        	currentLine = applyCenteredNoJustify(currentLine, singleColumn);
+        } else if (alignment == Alignment.CENTER) {
+        	currentLine = applyCentered(currentLine, singleColumn);
         }
-            	
-        // Apply indent
-        if (blockIndent) 
-        {
-            applyBlockIndent();
-        }
-            	
-        if (paragraphIndent) 
-        {
-            /*
-            if (blockIndent) {
-            	// TODO: Define custom error?
-            	//throw new InvalidFormatSetting("Block indent and paragraph indent flags cannot be set simultaneously.");
-            } else {
-            	lineIn = applyParagraphIndent(lineIn);
-            }
-            */
-            		
-            applyParagraphIndent();
-            paragraphIndent = false; // paragraphIndent is only applied for the first line encountered.
-        }
-            	
-        // TODO: apply justify
-            	
-        // TODO: buffer in the line according to column setting
-            	
-        // This may be a useful line
-        // buffer = lineIn.substring(0, Math.min(lineIn.length(), charsPerLine)); // Get 1st 35/80 chars
-
+        
+        // Nick: what does this do?
         if (usingStarterLine)
         {
             nextLine = starterLine.substring(currentLine.length() + 1);
@@ -254,65 +251,183 @@ class FormatText {
         }
     }
     
-    /*
-     * Make an input string single spaced, or return it if it's already single spaced.
-     * @param Input string, may be single spaced or double spaced
-     * @return Output a string that's single spaced
-     */
+    /**
+    * Method Description applyLeftFlush formats string to the left side
+    * @param isIt80 boolean
+    * @return String retVal
+    */
+    static String applyLeftFlush(String line, boolean isIt80)
+    {
+         // Local variables
+         String retVal = "";
+         String space =  "";
+         int columnSize = 80;
+         int strSize = 0;
 
-     // For now this is not being used because the default formatting is single spacing.
-     // May be used later if we decide to change the logic.
-    private static String applySingleSpacing(String lineIn) 
-    {
-    	String spaced = lineIn;
-    	
-    	// TODO: Make spaced single spaced
-    	
-    	return spaced;
-    }
-    
-    /*
-     * Make an input string double spaced, or return it if it's already double spaced.
-     * @param Input string, may be single spaced or double spaced
-     * @return Output a string that's double spaced
-     */
+         // Local code
+         if(isIt80 == false)
+         {
+             columnSize = 35;
+         }
 
-     // Uses currentLine, the formatted text.
-    private static String applyDoubleSpacing()
-    {
-    	String spaced = currentLine;
-    	
-    	// TODO: Make spaced double spaced
-    	
-    	return spaced;
-    }
+         strSize = line.length();
+
+         while(strSize < columnSize) // loop will add the necessary spaces
+                                     // to make the line left justified
+         {
+
+            space += " ";
+
+            strSize = strSize + 1;
+
+         }
+
+         retVal = line + space;
+
+         return(retVal);
+   	 
+    } //ends applyLeftFlush
     
-    /*
-     * Indent the input by 10 spaces
-     * @param Input string, expect it not to be indented already
-     * @return Output a string that's indented
+    /**
+     * Method Description applyRightFlush formats string to the right side
+     * @param isIt80 boolean
+     * @return String retVal
      */
-    private static String applyBlockIndent() 
+    static String applyRightFlush(String line, boolean isIt80)
     {
-    	String indented;
-    	String tenSpaces = "          ";
-    	
-    	indented = tenSpaces + currentLine;
-    	
-    	return indented;
-    }
+        // Local variables
+        String retVal = "";
+        String space =  "";
+        int columnSize = 80;
+        int strSize = 0;
+
+        // Local code
+        if(isIt80 == false)
+        {
+            columnSize = 35;
+        }
+
+        strSize = line.length();
+
+        while(strSize < columnSize) //loop will add the necessary spaces
+                                    // to make the line left justified
+         {
+            space += " ";
+
+            strSize = strSize + 1;
+
+         }
+
+         retVal = space + line;
+
+         return(retVal);
+   	 
+    } //ends applyRightFlush
     
-    /*
-     * Indent the input by 5 spaces
-     * @param Input string, expect it not to be indented already
-     * @return Output a string that's indented
+    static String applyCentered(String currentLine, boolean isIt80)
+    {
+   	 
+   	 //Local variables
+   	 String retVal = "";
+   	 String spaceLeft =  "";
+   	 String spaceRight = "";
+   	 int columnSize = 80;
+   	 int strSize = 0;
+   	 int leftSize = 0;
+   	 int rightSize = 0;
+   	 int sizeToAdd = 0;
+   	 int counter = 0;
+   	 
+   	 //Local Variables
+   	 if(isIt80 == false)
+   	 {
+   		 columnSize = 35;
+   	 }
+   	 
+   	 strSize = currentLine.length();
+   	 
+   	 
+   	 sizeToAdd = columnSize - currentLine.length();
+   	 
+   	 //int mid = (int) Math.floor((double) (start+end)/(2.0));
+   	 
+   	 if(sizeToAdd != 0)
+   	 {
+   		 
+   		 leftSize = (int) Math.floor((double) (sizeToAdd)/(2.0));//calculates size needed for the spaces
+   		 
+   		 rightSize = sizeToAdd - leftSize;
+   		 
+   		 while(counter < leftSize) //get sizes appropriate size
+   		 {
+   			 counter++;
+   			 spaceLeft += " ";
+   		 }
+   		 
+   		 counter = 0;
+   		 
+   		 while(counter < rightSize)//get sizes appropriate size
+   		 {
+   			 counter++;
+   			 spaceRight += " ";
+   		 }
+   		 
+   		retVal = spaceLeft + currentLine + spaceRight; //
+   		 
+   	 }
+   	 else
+   	 {
+   		 retVal = currentLine;
+   	 }
+   	 
+   	 if (retVal.length() != columnSize) {
+    	// TODO: throw error
+   	 }
+   	 
+   	 return(retVal);
+   	 
+    } // ends applyCentered
+    
+    /**
+     * Method Description applyCenterNoJustify formats string to the right side
+     * @param isIt80 boolean
+     * @return String retVal
      */
-    private static String applyParagraphIndent() {
-    	String indented;
-    	String fiveSpaces = "     ";
-    	
-    	indented = fiveSpaces + currentLine;
-    	
-    	return indented;
-    }
+    static String applyCenteredNoJustify(String line, boolean isIt80)
+    {
+        // Local variables
+        String retVal = "";
+        String space =  "";
+        int counter = 0;
+        int columnSize = 80;
+        int strSize = 0;
+        int spacesLeft;
+        int spacesToPad;
+
+        // Local code
+        if(isIt80 == false)
+        {
+            columnSize = 35;
+        }
+
+        strSize = line.length();
+        spacesLeft = columnSize - strSize;
+        spacesToPad = spacesLeft / 2;
+        
+        while(counter < spacesToPad)//get sizes appropriate size
+  		{
+        	counter++;
+        	space += " ";
+  		}
+        
+        retVal = space + line + space;
+        
+        if (retVal.length() != columnSize) {
+        	// TODO: throw error
+        }
+
+        return(retVal);
+   	 
+    } //ends applyCenteredNoJustify
+    
 }
