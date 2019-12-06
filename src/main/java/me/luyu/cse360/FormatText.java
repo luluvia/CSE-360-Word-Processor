@@ -110,7 +110,12 @@ class FormatText {
         }
         else
         {
-            output.append('\n');
+            // Apply double or single spacing
+            if (singleSpacing) {
+              output.append('\n');
+            } else {
+              output.append('\n\n');
+            }
         }
         output.append(currentLine);
     }
@@ -151,13 +156,6 @@ class FormatText {
             {
                 break;
             }
-        }
-
-        // TODO Apply formatting to lines.
-        // Apply spacing
-        if (!singleSpacing) 
-        {
-            applyDoubleSpacing();
         }
             	
         // Apply indent
@@ -252,39 +250,6 @@ class FormatText {
         {
             flagLine = false;
         }
-    }
-    
-    /*
-     * Make an input string single spaced, or return it if it's already single spaced.
-     * @param Input string, may be single spaced or double spaced
-     * @return Output a string that's single spaced
-     */
-
-     // For now this is not being used because the default formatting is single spacing.
-     // May be used later if we decide to change the logic.
-    private static String applySingleSpacing(String lineIn) 
-    {
-    	String spaced = lineIn;
-    	
-    	// TODO: Make spaced single spaced
-    	
-    	return spaced;
-    }
-    
-    /*
-     * Make an input string double spaced, or return it if it's already double spaced.
-     * @param Input string, may be single spaced or double spaced
-     * @return Output a string that's double spaced
-     */
-
-     // Uses currentLine, the formatted text.
-    private static String applyDoubleSpacing()
-    {
-    	String spaced = currentLine;
-    	
-    	// TODO: Make spaced double spaced
-    	
-    	return spaced;
     }
     
     /*
