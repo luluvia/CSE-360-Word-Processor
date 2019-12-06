@@ -206,7 +206,7 @@ class FormatText {
         }
         else
         {
-            if (nextLine.length() > currentLine.length())
+            if (nextLine.trim().length() > currentLine.trim().length())
             {
                 nextLine = nextLine.substring(currentLine.length() + 1);
             }
@@ -214,11 +214,11 @@ class FormatText {
             {
                 if (blockIndent)
                 {
-                    nextLine = nextLine.substring(5, currentLine.length()-10);
+                    nextLine = nextLine.substring(5, currentLine.trim().length());
                 }
                 else
                 {
-                    nextLine = nextLine.substring(currentLine.length());
+                    nextLine = nextLine.substring(currentLine.trim().length());
                 }
             }
         }
