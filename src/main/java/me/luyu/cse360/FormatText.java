@@ -289,34 +289,35 @@ class FormatText {
     */
     static String applyLeftFlush(boolean isIt80)
     {
-   	 //Local variables
-   	 String retVal = "";
-   	 String space =  "";
-   	 int columnSize = 80;
-   	 int strSize = 0;
+         // Local variables
+         String retVal = "";
+         String space =  "";
+         int columnSize = 80;
+         int strSize = 0;
+
+         // Local code
+         if(isIt80 == false)
+         {
+             columnSize = 35;
+         }
+
+         strSize = currentLine.length();
+
+         while(strSize < columnSize) // loop will add the necessary spaces
+                                     // to make the line left justified
+         {
+
+            space += " ";
+
+            strSize = strSize + 1;
+
+         }
+
+         retVal = currentLine + space;
+
+         return(retVal);
    	 
-   	 //Local code
-   	 if(isIt80 == false)
-   	 {
-   		 columnSize = 35;
-   	 }
-   	 
-   	 strSize = currentLine.length();
-   	 
-   	 while(strSize < columnSize)//loop will add the necessary spaces to make the line left justified
-   	 {
-   		 
-   		space += " ";
-   		
-   		strSize = strSize + 1;
-   		 
-   	 }
-   	 
-   	 retVal = currentLine + space;
-   	 
-   	 return(retVal);
-   	 
-    }//ends  applyLeftFlush
+    } //ends applyLeftFlush
     
     /**
      * Method Description applyRightFlush formats string to the right side
@@ -326,33 +327,33 @@ class FormatText {
     static String applyRightFlush(boolean isIt80)
     {
    	 
-   	  //Local variables
-   	 String retVal = "";
-   	 String space =  "";
-   	 int columnSize = 80;
-   	 int strSize = 0;
+        // Local variables
+        String retVal = "";
+        String space =  "";
+        int columnSize = 80;
+        int strSize = 0;
+
+        // Local code
+        if(isIt80 == false)
+        {
+            columnSize = 35;
+        }
+
+        strSize = currentLine.length();
+
+        while(strSize < columnSize) //loop will add the necessary spaces
+                                    // to make the line left justified
+         {
+            space += " ";
+
+            strSize = strSize + 1;
+
+         }
+
+         retVal = space + currentLine;
+
+         return(retVal);
    	 
-   	 //Local code
-   	 if(isIt80 == false)
-   	 {
-   		 columnSize = 35;
-   	 }
-   	 
-   	 strSize = currentLine.length();
-   	 
-   	 while(strSize < columnSize)//loop will add the necessary spaces to make the line left justified
-   	 {
-   		 
-   		space += " ";
-   		
-   		strSize = strSize + 1;
-   		 
-   	 }
-   	 
-   	 retVal = space + currentLine;
-   	 
-   	 return(retVal);
-   	 
-    }//ends applyRightFlush
+    } //ends applyRightFlush
     
 }
