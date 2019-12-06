@@ -114,7 +114,8 @@ class FormatText {
             if (singleSpacing) {
               output.append('\n');
             } else {
-              output.append('\n\n');
+              output.append('\n');
+              output.append('\n');
             }
         }
         output.append(currentLine);
