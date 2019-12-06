@@ -64,6 +64,7 @@ class FormatText {
         output = new StringBuilder();
         nextLine = "";
         String lineIn;
+        int starterLineLength = 0;
         // String lineIn is the line we'll be using as input.
         do
         {
@@ -75,7 +76,8 @@ class FormatText {
             {
                 starterLine = nextLine + " " + lineIn;
                 starterLine.trim();
-                if (starterLine.length() > charsPerLine)
+                starterLineLength = starterLine.length(); 
+                if (starterLineLength > charsPerLine)
                 {
                     restructureLine(true);
                     addCurrentLineToOutput();
@@ -138,6 +140,7 @@ class FormatText {
     {
         boolean startOfCurrentLine = true;
         String token;
+        boolean exitLoop = false;
         currentLine = "";
         
         // Indentation
@@ -179,7 +182,7 @@ class FormatText {
             tokenizer = new StringTokenizer(nextLine);
         }
 
-        while (tokenizer.hasMoreTokens())
+        while ((tokenizer.hasMoreTokens()) && (exitLoop == false))
         {
             token = tokenizer.nextToken();
             if ((currentLine.length() + token.length()) < charsPerLine)
@@ -196,7 +199,7 @@ class FormatText {
             }
             else
             {
-                break;
+                exitLoop = true;
             }
         }
             	
