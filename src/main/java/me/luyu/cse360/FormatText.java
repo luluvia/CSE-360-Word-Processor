@@ -70,6 +70,7 @@ class FormatText {
             if (!flagLine)
             {
                 starterLine = nextLine + " " + lineIn;
+                starterLine.trim();
                 if (starterLine.length() > charsPerLine)
                 {
                     restructureLine(true);
@@ -126,7 +127,7 @@ class FormatText {
         boolean startOfCurrentLine = true;
         String token;
         currentLine = "";
-        
+
         // Indentation
         if (blockIndent)
         {
@@ -186,7 +187,21 @@ class FormatText {
         }
         else
         {
-            nextLine = nextLine.substring(currentLine.length() + 1);
+            if (nextLine.length() > currentLine.length())
+            {
+                nextLine = nextLine.substring(currentLine.length() + 1);
+            }
+            else
+            {
+                if (blockIndent)
+                {
+                    nextLine = nextLine.substring(5, currentLine.length()-10);
+                }
+                else
+                {
+                    nextLine = nextLine.substring(currentLine.length());
+                }
+            }
         }
     }
 
