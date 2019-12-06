@@ -116,7 +116,28 @@ public class PrimaryController
     @FXML
     public void saveFile()
     {
+        final FileChooser fileChooser = new FileChooser();
 
+        ExtensionFilter textFilter = new ExtensionFilter("Text Files", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+
+        File outputFile = fileChooser.showSaveDialog(Scribe.getPrimaryStage());
+
+        if (outputFile != null)
+        {
+            try
+            {
+                PrintWriter writer = new PrintWriter(outputFile);
+                writer.write(outputString);
+                writer.close();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+                String IO_errorString = "The specified input file could not be written to.";
+                Alert IO_alert = new Alert(Alert.AlertType.ERROR, IO_errorString);
+                IO_alert.showAndWait();
+            }
+        }
     }
 
 }
