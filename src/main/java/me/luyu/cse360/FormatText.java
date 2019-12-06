@@ -173,13 +173,18 @@ class FormatText {
             }
         }
             	
-        // TODO: apply justify
-            	
-        // TODO: buffer in the line according to column setting
-            	
-        // This may be a useful line
-        // buffer = lineIn.substring(0, Math.min(lineIn.length(), charsPerLine)); // Get 1st 35/80 chars
-
+        // TODO: check if justify plays nice with indent
+        if (alignment == Alignment.LEFT) {
+        	currentLine = applyLeftFlush(currentLine, singleColumn);
+        } else if (alignment == Alignment.RIGHT) {
+        	currentLine = applyRightFlush(currentLine, singleColumn);
+        } else if (alignment == Alignment.CENTER_NO_JUSTIFY) {
+        	currentLine = applyCenteredNoJustify(currentLine, singleColumn);
+        } else if (alignment == Alignment.CENTER) {
+        	currentLine = applyCentered(currentLine, singleColumn);
+        }
+        
+        // Nick: what does this do?
         if (usingStarterLine)
         {
             nextLine = starterLine.substring(currentLine.length() + 1);
@@ -251,7 +256,7 @@ class FormatText {
     * @param isIt80 boolean
     * @return String retVal
     */
-    static String applyLeftFlush(boolean isIt80)
+    static String applyLeftFlush(String line, boolean isIt80)
     {
          // Local variables
          String retVal = "";
@@ -265,7 +270,7 @@ class FormatText {
              columnSize = 35;
          }
 
-         strSize = currentLine.length();
+         strSize = line.length();
 
          while(strSize < columnSize) // loop will add the necessary spaces
                                      // to make the line left justified
@@ -277,7 +282,7 @@ class FormatText {
 
          }
 
-         retVal = currentLine + space;
+         retVal = line + space;
 
          return(retVal);
    	 
@@ -288,9 +293,8 @@ class FormatText {
      * @param isIt80 boolean
      * @return String retVal
      */
-    static String applyRightFlush(boolean isIt80)
+    static String applyRightFlush(String line, boolean isIt80)
     {
-   	 
         // Local variables
         String retVal = "";
         String space =  "";
@@ -303,7 +307,7 @@ class FormatText {
             columnSize = 35;
         }
 
-        strSize = currentLine.length();
+        strSize = line.length();
 
         while(strSize < columnSize) //loop will add the necessary spaces
                                     // to make the line left justified
@@ -314,10 +318,116 @@ class FormatText {
 
          }
 
-         retVal = space + currentLine;
+         retVal = space + line;
 
          return(retVal);
    	 
     } //ends applyRightFlush
+    
+    static String applyCentered(String currentLine, boolean isIt80)
+    {
+   	 
+   	 //Local variables
+   	 String retVal = "";
+   	 String spaceLeft =  "";
+   	 String spaceRight = "";
+   	 int columnSize = 80;
+   	 int strSize = 0;
+   	 int leftSize = 0;
+   	 int rightSize = 0;
+   	 int sizeToAdd = 0;
+   	 int counter = 0;
+   	 
+   	 //Local Variables
+   	 if(isIt80 == false)
+   	 {
+   		 columnSize = 35;
+   	 }
+   	 
+   	 strSize = currentLine.length();
+   	 
+   	 
+   	 sizeToAdd = columnSize - currentLine.length();
+   	 
+   	 //int mid = (int) Math.floor((double) (start+end)/(2.0));
+   	 
+   	 if(sizeToAdd != 0)
+   	 {
+   		 
+   		 leftSize = (int) Math.floor((double) (sizeToAdd)/(2.0));//calculates size needed for the spaces
+   		 
+   		 rightSize = sizeToAdd - leftSize;
+   		 
+   		 while(counter < leftSize) //get sizes appropriate size
+   		 {
+   			 counter++;
+   			 spaceLeft += " ";
+   		 }
+   		 
+   		 counter = 0;
+   		 
+   		 while(counter < rightSize)//get sizes appropriate size
+   		 {
+   			 counter++;
+   			 spaceRight += " ";
+   		 }
+   		 
+   		retVal = spaceLeft + currentLine + spaceRight; //
+   		 
+   	 }
+   	 else
+   	 {
+   		 retVal = currentLine;
+   	 }
+   	 
+   	 if (retVal.length() != columnSize) {
+    	// TODO: throw error
+   	 }
+   	 
+   	 return(retVal);
+   	 
+    } // ends applyCentered
+    
+    /**
+     * Method Description applyCenterNoJustify formats string to the right side
+     * @param isIt80 boolean
+     * @return String retVal
+     */
+    static String applyCenteredNoJustify(String line, boolean isIt80)
+    {
+        // Local variables
+        String retVal = "";
+        String space =  "";
+        int counter = 0;
+        int columnSize = 80;
+        int strSize = 0;
+        int spacesLeft;
+        int spacesToPad;
+
+        // Local code
+        if(isIt80 == false)
+        {
+            columnSize = 35;
+        }
+
+        strSize = line.length();
+        spacesLeft = columnSize - strSize;
+        spacesToPad = spacesLeft / 2;
+        
+        while(counter < spacesToPad)//get sizes appropriate size
+  		{
+        	counter++;
+        	space += " ";
+  		}
+        
+        retVal = space + line + space;
+        
+        if (retVal.length() != columnSize) {
+        	// TODO: throw error
+        }
+
+        return(retVal);
+   	 
+    } //ends applyCenteredNoJustify
     
 }
