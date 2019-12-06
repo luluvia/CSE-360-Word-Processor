@@ -323,69 +323,44 @@ class FormatText {
          return(retVal);
    	 
     } //ends applyRightFlush
-    
+
     static String applyCentered(String currentLine, boolean isIt80)
     {
-   	 
-   	 //Local variables
-   	 String retVal = "";
-   	 String spaceLeft =  "";
-   	 String spaceRight = "";
-   	 int columnSize = 80;
-   	 int strSize = 0;
-   	 int leftSize = 0;
-   	 int rightSize = 0;
-   	 int sizeToAdd = 0;
-   	 int counter = 0;
-   	 
-   	 //Local Variables
-   	 if(isIt80 == false)
-   	 {
-   		 columnSize = 35;
-   	 }
-   	 
-   	 strSize = currentLine.length();
-   	 
-   	 
-   	 sizeToAdd = columnSize - currentLine.length();
-   	 
-   	 //int mid = (int) Math.floor((double) (start+end)/(2.0));
-   	 
-   	 if(sizeToAdd != 0)
-   	 {
-   		 
-   		 leftSize = (int) Math.floor((double) (sizeToAdd)/(2.0));//calculates size needed for the spaces
-   		 
-   		 rightSize = sizeToAdd - leftSize;
-   		 
-   		 while(counter < leftSize) //get sizes appropriate size
-   		 {
-   			 counter++;
-   			 spaceLeft += " ";
-   		 }
-   		 
-   		 counter = 0;
-   		 
-   		 while(counter < rightSize)//get sizes appropriate size
-   		 {
-   			 counter++;
-   			 spaceRight += " ";
-   		 }
-   		 
-   		retVal = spaceLeft + currentLine + spaceRight; //
-   		 
-   	 }
-   	 else
-   	 {
-   		 retVal = currentLine;
-   	 }
-   	 
-   	 if (retVal.length() != columnSize) {
-    	// TODO: throw error
-   	 }
-   	 
-   	 return(retVal);
-   	 
+        //Local variables
+        String retVal = "";
+        String spaces = "";
+        int counter = 0;
+        int columnSize = 80;
+        int strSize = 0;
+        int sizeToAdd = 0;
+        String[] split = currentLine.split(" ");
+
+        //Local Variables
+        if(isIt80 == false)
+        {
+            columnSize = 35;
+        }
+
+        strSize = currentLine.length();
+        sizeToAdd = (columnSize - currentLine.length()) / (split.length + 2);
+
+        while (counter < sizeToAdd) {
+            counter++;
+            spaces = " ";
+        }
+
+        for ( int i = 0; i <= split.length - 1; i++)
+        {
+            retVal = spaces + split[i];
+        }
+
+        retVal += spaces;
+
+        if (retVal.length() != columnSize) {
+            // TODO: throw error
+        }
+
+        return(retVal);
     } // ends applyCentered
     
     /**
