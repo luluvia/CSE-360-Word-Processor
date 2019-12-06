@@ -63,15 +63,9 @@ class FormatText {
             
             if (!flagLine)
             {
-                // TODO Apply formatting to lines.
-            	// Apply spacing
-            	if (singleSpacing) {
-            		lineIn = applySingleSpacing(lineIn);
-            	} else {
-            		lineIn = applyDoubleSpacing(lineIn);
-            	}
+            	// Apply formatting to lines.
             	
-            	// Apply indent
+                // Apply indent
             	if (blockIndent) {
             		lineIn = applyBlockIndent(lineIn);
             	}
@@ -95,6 +89,13 @@ class FormatText {
             	
             	// This may be a useful line
             	// buffer = lineIn.substring(0, Math.min(lineIn.length(), charsPerLine)); // Get 1st 35/80 chars
+            	
+            	// Apply spacing
+            	if (singleSpacing) {
+            		lineIn = applySingleSpacing(lineIn);
+            	} else {
+            		lineIn = applyDoubleSpacing(lineIn);
+            	}
             	
             	firstLine = false; // This will trip to false the first time
             }
@@ -160,27 +161,27 @@ class FormatText {
     }
     
     /*
-     * Make an input string single spaced, or return it if it's already single spaced.
-     * @param Input string, may be single spaced or double spaced
+     * Make an input string single spaced by appending "\n"
+     * @param Input string, assume it has no "\n" appended
      * @return Output a string that's single spaced
      */
     static String applySingleSpacing(String lineIn) {
     	String spaced = lineIn;
     	
-    	// TODO: Make spaced single spaced
+    	spaced += "\n";
     	
     	return spaced;
     }
     
     /*
-     * Make an input string double spaced, or return it if it's already double spaced.
-     * @param Input string, may be single spaced or double spaced
+     * Make an input string double spaced by appending "\n\n"
+     * @param Input string, assume it has no "\n"s appended
      * @return Output a string that's double spaced
      */
     static String applyDoubleSpacing(String lineIn) {
     	String spaced = lineIn;
     	
-    	// TODO: Make spaced double spaced
+    	spaced += "\n\n";
     	
     	return spaced;
     }
