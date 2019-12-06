@@ -126,6 +126,20 @@ class FormatText {
         boolean startOfCurrentLine = true;
         String token;
         currentLine = "";
+        
+        // Indentation
+        if (blockIndent)
+        {
+            currentLine = "          "; // 10 char indent
+        }
+        else if (firstLine && paragraphIndent)
+        {
+            currentLine = "     "; // 5 char indent
+        }
+        else
+        {
+            currentLine = ""; // default no indent
+        }
 
         StringTokenizer tokenizer;
 
@@ -157,27 +171,6 @@ class FormatText {
             {
                 break;
             }
-        }
-            	
-        // Apply indent
-        if (blockIndent) 
-        {
-            applyBlockIndent();
-        }
-            	
-        if (paragraphIndent) 
-        {
-            /*
-            if (blockIndent) {
-            	// TODO: Define custom error?
-            	//throw new InvalidFormatSetting("Block indent and paragraph indent flags cannot be set simultaneously.");
-            } else {
-            	lineIn = applyParagraphIndent(lineIn);
-            }
-            */
-            		
-            applyParagraphIndent();
-            paragraphIndent = false; // paragraphIndent is only applied for the first line encountered.
         }
             	
         // TODO: apply justify
@@ -251,35 +244,6 @@ class FormatText {
         {
             flagLine = false;
         }
-    }
-    
-    /*
-     * Indent the input by 10 spaces
-     * @param Input string, expect it not to be indented already
-     * @return Output a string that's indented
-     */
-    private static String applyBlockIndent() 
-    {
-    	String indented;
-    	String tenSpaces = "          ";
-    	
-    	indented = tenSpaces + currentLine;
-    	
-    	return indented;
-    }
-    
-    /*
-     * Indent the input by 5 spaces
-     * @param Input string, expect it not to be indented already
-     * @return Output a string that's indented
-     */
-    private static String applyParagraphIndent() {
-    	String indented;
-    	String fiveSpaces = "     ";
-    	
-    	indented = fiveSpaces + currentLine;
-    	
-    	return indented;
     }
     
     /**
