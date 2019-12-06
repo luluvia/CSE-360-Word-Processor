@@ -54,6 +54,10 @@ class FormatText {
     private static String currentLine;
     private static String nextLine = "";
 
+    /*
+     * Method Description formatText format the input from a text file
+     * @return String formatted output string
+     */
     static String formatText()
     {
         Scanner scan = new Scanner(PrimaryController.inputString);
@@ -104,6 +108,10 @@ class FormatText {
         return output.toString();
     }
 
+    /*
+     * Method Description addCurrentLineToOutput Add the current line to the total output,
+     * apply single/double spacing.
+     */
     private static void addCurrentLineToOutput() {
         if (firstLine)
         {
@@ -122,6 +130,10 @@ class FormatText {
         output.append(currentLine);
     }
 
+    /*
+     * Method Description restructureLine Format the current line
+     * @param boolean usingStarterLine
+     */
     private static void restructureLine(boolean usingStarterLine)
     {
         boolean startOfCurrentLine = true;
@@ -225,7 +237,7 @@ class FormatText {
     }
 
     /*
-     * If the input string is a flag, read the flag and update the appropriate setting.
+     * Method Description flagParser If the input string is a flag, read the flag and update the appropriate setting.
      * Has the side effect of updating flagLine : boolean
      * @param A line, if it's a flag it has format '-[flag]', [flag] is a char
      */
@@ -319,7 +331,8 @@ class FormatText {
     
     /**
      * Method Description applyRightFlush formats string to the right side
-     * @param isIt80 boolean
+     * @param String line 
+     * @param boolean isIt80 
      * @return String retVal
      */
     static String applyRightFlush(String line, boolean isIt80)
@@ -353,7 +366,13 @@ class FormatText {
    	 
     } //ends applyRightFlush
 
-    static String applyCentered(String currentLine, boolean isIt80)
+    /**
+     * Method Description applyCentered formats string to be centered justified
+     * @param String currentLine 
+     * @param boolean isIt80 
+     * @return String retVal
+     */
+    static String applyCentered(String line, boolean isIt80)
     {
         //Local variables
         String retVal = "";
@@ -362,17 +381,18 @@ class FormatText {
         int columnSize = 80;
         int strSize = 0;
         int sizeToAdd = 0;
-        String[] split = currentLine.split(" ");
+        String[] split = line.split(" ");
 
-        //Local Variables
+        // Get column size
         if(isIt80 == false)
         {
             columnSize = 35;
         }
 
-        strSize = currentLine.length();
-        sizeToAdd = (columnSize - currentLine.length()) / (split.length + 2);
+        strSize = line.length();
+        sizeToAdd = (columnSize - line.length()) / (split.length + 2);
 
+        // Get # of spaces to add
         while (counter < sizeToAdd) {
             counter++;
             spaces = " ";
@@ -394,7 +414,8 @@ class FormatText {
     
     /**
      * Method Description applyCenterNoJustify formats string to the right side
-     * @param isIt80 boolean
+     * @param String line 
+     * @param boolean isIt80 
      * @return String retVal
      */
     static String applyCenteredNoJustify(String line, boolean isIt80)
@@ -433,5 +454,4 @@ class FormatText {
         return(retVal);
    	 
     } //ends applyCenteredNoJustify
-    
 }
